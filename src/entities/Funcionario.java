@@ -35,7 +35,7 @@ public class Funcionario extends Pessoa {
 	}
 	@Override
 	public String toString() {
-		return "Funcionario ["+"nome:"+ super.getNome() + " Data de Nascemineto: "+ getDataNascimento().format(formatter) +" salario=" + df.format(salario) + ", funcao=" + funcao + "]";
+		return "Funcionario ["+"nome= "+ super.getNome() + " - Data de Nascemineto= "+ getDataNascimento().format(formatter) +" - salario= " + df.format(salario) + " - funcao= " + funcao + "]";
 	}
 	
 	

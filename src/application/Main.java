@@ -3,7 +3,6 @@ package application;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -98,8 +97,15 @@ public class Main {
         	.reduce((x,y) -> x.add(y)).get();
         
         System.out.println(df.format(sum));
+        System.out.println();
         
-       //
+       //SALARIOS MINIMOS
+        System.out.println("SALARIOS MINIMOS");
+        System.out.println("--------------------------------------------------");
+       funcionarios.stream().forEach(x -> System.out.println(
+    		   "Nome: " + x.getNome() +
+    		   " - Salarios Minimos: " + df.format( Double.parseDouble(x.getSalario().toString()) / 1212.00)
+    		   ));
 	    
 		
 	}
