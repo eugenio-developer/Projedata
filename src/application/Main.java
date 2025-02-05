@@ -2,9 +2,12 @@ package application;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import entities.Funcionario;
 
@@ -14,7 +17,7 @@ public class Main {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 		
-
+		//CRIAÇÃO DA LISTA
 		funcionarios.add(new Funcionario(new BigDecimal("2009.44"), "Operador", "Maria", LocalDate.parse("18/10/2000", formatter)));
 		funcionarios.add(new Funcionario(new BigDecimal("2284.38"), "Operador", "João", LocalDate.parse("12/05/1990", formatter)));
 		funcionarios.add(new Funcionario(new BigDecimal("9836.14"), "Coordenador", "Caio", LocalDate.parse("02/05/1961", formatter)));
@@ -26,17 +29,46 @@ public class Main {
 		funcionarios.add(new Funcionario(new BigDecimal("1606.85"), "Eletricista", "Heloísa", LocalDate.parse("24/05/2003", formatter)));
 		funcionarios.add(new Funcionario(new BigDecimal("2799.93"), "Gerente", "Helena", LocalDate.parse("02/09/1996", formatter)));
 		
+		//REMOVENDO O JOÃO
 		funcionarios.removeIf(x -> x.getNome().equals("João"));
 		
+		//AUMENTO DE 10%
 		funcionarios.replaceAll(x -> new Funcionario(
 				x.getSalario().multiply(new BigDecimal(1.1)), 
 				x.getFuncao(), 
 				x.getNome(), 
 				x.getDataNascimento()));
 		
+		//IMPRIME LISTA
 		
-		
+		System.out.println("LISTA DE FUNCIONARIOS");
+		System.out.println("--------------------------------------------------");
 		funcionarios.forEach(System.out::println);
+		System.out.println();
+		//CRIANDO ESTRUTURA MAP COM CHAVE E VALAOR E POVOANDO-A
+		Map<String, List<Funcionario>> funcionariosPorCargo = funcionarios.stream()
+                .collect(Collectors.groupingBy(Funcionario::getFuncao));
+		
+		//IMPRIME FUNCIONARIOS POR CARGO
+		System.out.println("FILTRO POR CARGO");
+		System.out.println("--------------------------------------------------");
+	       funcionariosPorCargo.forEach((cargo, listaFuncionarios) -> {
+	            System.out.println("Cargo: " + cargo);
+	            listaFuncionarios.forEach(System.out::println);
+	            System.out.println();
+	        });
+	    System.out.println();
+		//FUNCIONARIOS ANIVERSARIANTES
+	    System.out.println("ANIVERSARIANTES! (Mes: 10 e 12)");
+	    funcionarios.stream()
+	    	.filter(x -> x.getDataNascimento().getMonth() == Month.OCTOBER || x.getDataNascimento().getMonth() == Month.DECEMBER)
+	    	.forEach(System.out::println);
+	    System.out.println("--------------------------------------------------");
+	    
+		
+	    
+	    
+		
 	}
 
 }
