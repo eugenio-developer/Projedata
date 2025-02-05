@@ -2,9 +2,11 @@ package application;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,11 +42,11 @@ public class Main {
 				x.getDataNascimento()));
 		
 		//IMPRIME LISTA
-		
 		System.out.println("LISTA DE FUNCIONARIOS");
 		System.out.println("--------------------------------------------------");
 		funcionarios.forEach(System.out::println);
 		System.out.println();
+		
 		//CRIANDO ESTRUTURA MAP COM CHAVE E VALAOR E POVOANDO-A
 		Map<String, List<Funcionario>> funcionariosPorCargo = funcionarios.stream()
                 .collect(Collectors.groupingBy(Funcionario::getFuncao));
@@ -66,7 +68,15 @@ public class Main {
 	    System.out.println("--------------------------------------------------");
 	    
 		
-	    
+	    //FUNCIONARIO MAIS VELHO
+        Funcionario funcionarioMaisVelho = funcionarios.stream()
+                .min(Comparator.comparing(Funcionario::getDataNascimento))
+                .orElseThrow(() -> new RuntimeException("Nenhum funcionário encontrado"));
+        LocalDate dataAtual = LocalDate.now();
+        System.out.println("Funcionario com maior idade: ");
+        System.out.println("Nome: " + funcionarioMaisVelho.getNome());
+        System.out.println("Idade: " + dataAtual.compareTo(funcionarioMaisVelho.getDataNascimento()) );
+        	
 	    
 		
 	}
