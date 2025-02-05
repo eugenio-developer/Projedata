@@ -1,6 +1,7 @@
 package application;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -18,6 +19,7 @@ public class Main {
 	public static void main(String[] args) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+		DecimalFormat df = new DecimalFormat("#,##0.00");
 		
 		//CRIAÇÃO DA LISTA
 		funcionarios.add(new Funcionario(new BigDecimal("2009.44"), "Operador", "Maria", LocalDate.parse("18/10/2000", formatter)));
@@ -62,10 +64,11 @@ public class Main {
 	    System.out.println();
 		//FUNCIONARIOS ANIVERSARIANTES
 	    System.out.println("ANIVERSARIANTES! (Mes: 10 e 12)");
+	    System.out.println("--------------------------------------------------");
 	    funcionarios.stream()
 	    	.filter(x -> x.getDataNascimento().getMonth() == Month.OCTOBER || x.getDataNascimento().getMonth() == Month.DECEMBER)
 	    	.forEach(System.out::println);
-	    System.out.println("--------------------------------------------------");
+	    System.out.println();
 	    
 		
 	    //FUNCIONARIO MAIS VELHO
@@ -73,10 +76,30 @@ public class Main {
                 .min(Comparator.comparing(Funcionario::getDataNascimento))
                 .orElseThrow(() -> new RuntimeException("Nenhum funcionário encontrado"));
         LocalDate dataAtual = LocalDate.now();
-        System.out.println("Funcionario com maior idade: ");
+        System.out.println("FUNCIONARIO COM MAIOR IDADE: ");
+        System.out.println("--------------------------------------------------");
         System.out.println("Nome: " + funcionarioMaisVelho.getNome());
-        System.out.println("Idade: " + dataAtual.compareTo(funcionarioMaisVelho.getDataNascimento()) );
-        	
+        System.out.println("Idade: " + dataAtual.compareTo(funcionarioMaisVelho.getDataNascimento()));
+        System.out.println();
+        
+        //ORDEM ALFABETICA
+        System.out.println("ORDEM ALFABETICA");
+        System.out.println("--------------------------------------------------");
+        funcionarios.stream()
+	        .sorted((x ,y) -> x.getNome().compareTo(y.getNome()))
+	        .forEach(System.out::println);
+        System.out.println();
+        
+        //TOTAL DE SALARIOS
+        System.out.println("SOMA DOS SALARIOS");
+        System.out.println("--------------------------------------------------");
+        BigDecimal sum= funcionarios.stream()
+        	.map(x -> x.getSalario())
+        	.reduce((x,y) -> x.add(y)).get();
+        
+        System.out.println(df.format(sum));
+        
+       //
 	    
 		
 	}
